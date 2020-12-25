@@ -92,9 +92,14 @@ export default {
         checkLettersAndUnderscores(text) {
             return /^[a-zA-Z_]+$/.test(text)
         },
+        checkPassword(password) {
+            return /(?=.{9,}).*[^0-9].*/.test(password)
+        },
         sendRegisterForm(event) {
             // First time ever I really need to use it.
             event.preventDefault()
+            // Hide the error message
+            this.errorHidden = true
             // Check variables
             if (!this.checkLettersAndSpaces(this.firstNameInput)) {
                 this.setAndDisplayError("Please inroduce only letters and spaces on your first name.")
@@ -102,8 +107,12 @@ export default {
                 this.setAndDisplayError("Please introduce only letters and spaces on your last name.")
             } else if (!this.checkLettersAndUnderscores(this.usernameInput)) {
                 this.setAndDisplayError("Please introduce only letters and underscores on your username.")
-            } else if (!this.checkLettersAndUnderscores(this.usernameInput)) {
-                this.errorMessage = "Please introduce only letters and underscores on your username."
+            } else if (!this.checkPassword(this.passwordInput)) {
+                this.setAndDisplayError("Please introduce more than 8 characters and not only numbers on your password.")
+            } else if (this.passwordInput !== this.confirmPasswordInput) {
+                this.setAndDisplayError("The password must match.")
+            } else {
+                alert("Register form fullfilled!")
             }
         },
     },
