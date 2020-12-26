@@ -113,17 +113,30 @@ export default {
             // Check variables
             if (!this.validFirstName()) {
                 this.setAndDisplayError("Please introduce only letters and spaces on your first name.")
-            } else if (!this.validLastName()) {
-                this.setAndDisplayError("Please introduce only letters and spaces on your last name.")
-            } else if (!this.validUsername()) {
-                this.setAndDisplayError("Please introduce only letters and underscores on your username.")
-            } else if (!this.validPassword()) {
-                this.setAndDisplayError("Please introduce more than 8 characters and not only numbers on your password.")
-            } else if (this.form.password !== this.form.confirmPassword) {
-                this.setAndDisplayError("The password must match.")
-            } else {
-                alert("Register form fullfilled!")
+                return
             }
+
+            if (!this.validLastName()) {
+                this.setAndDisplayError("Please introduce only letters and spaces on your last name.")
+                return
+            }
+
+            if (!this.validUsername()) {
+                this.setAndDisplayError("Please introduce only letters and underscores on your username.")
+                return
+            }
+
+            if (!this.validPassword()) {
+                this.setAndDisplayError("Please introduce more than 8 characters and not only numbers on your password.")
+                return
+            }
+
+            if (this.form.password !== this.form.confirmPassword) {
+                this.setAndDisplayError("The password must match.")
+                return
+            }
+
+            alert("Register form fullfilled!")
         }
     },
 }
