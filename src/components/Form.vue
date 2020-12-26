@@ -1,7 +1,7 @@
 <template lang="pug">
     .register-form
         h1 Register Form
-        form
+        .form
             .input
                 label(
                     for="first-name-input"
@@ -11,7 +11,7 @@
                     id="first-name-input"
                     name="first-name"
                     placeholder="Your first name"
-                    v-model="firstNameInput"
+                    v-model="form.firstName"
                 )
             .input
                 label(
@@ -22,7 +22,7 @@
                     id="last-name-input"
                     name="last-name"
                     placeholder="Your last name"
-                    v-model="lastNameInput"
+                    v-model="form.lastName"
                 )
             .input
                 label(
@@ -33,7 +33,7 @@
                     id="username-input"
                     name="username"
                     placeholder="Your username"
-                    v-model="usernameInput"
+                    v-model="form.username"
                 )
             .input
                 label(
@@ -44,7 +44,7 @@
                     id="password-input"
                     name="password"
                     placeholder="Your password"
-                    v-model="passwordInput"
+                    v-model="form.password"
                 )
             .input
                 label(
@@ -55,7 +55,7 @@
                     id="confirm-password-input"
                     name="confirm-password"
                     placeholder="Confirm your password"
-                    v-model="confirmPasswordInput"
+                    v-model="form.confirmPassword"
                 )
             //- Display errors
             .error-card(:class="{hidden: errorHidden}")
@@ -72,11 +72,13 @@
 export default {
     data() {
         return {
-            firstNameInput: "",
-            lastNameInput: "",
-            usernameInput: "",
-            passwordInput: "",
-            confirmPasswordInput: "",
+            form: {
+                firstName: "",
+                lastName: "",
+                username: "",
+                password: "",
+                confirmPassword: ""
+            },
             errorMessage: "Please do",
             errorHidden: true,
         }
@@ -95,21 +97,19 @@ export default {
         checkPassword(password) {
             return /(?=.{9,}).*[^0-9].*/.test(password)
         },
-        sendRegisterForm(event) {
-            // First time ever I really need to use it.
-            event.preventDefault()
+        sendRegisterForm() {
             // Hide the error message
             this.errorHidden = true
             // Check variables
-            if (!this.checkLettersAndSpaces(this.firstNameInput)) {
+            if (!this.checkLettersAndSpaces(this.form.firstName)) {
                 this.setAndDisplayError("Please inroduce only letters and spaces on your first name.")
-            } else if (!this.checkLettersAndSpaces(this.lastNameInput)) {
+            } else if (!this.checkLettersAndSpaces(this.form.lastName)) {
                 this.setAndDisplayError("Please introduce only letters and spaces on your last name.")
-            } else if (!this.checkLettersAndUnderscores(this.usernameInput)) {
+            } else if (!this.checkLettersAndUnderscores(this.form.username)) {
                 this.setAndDisplayError("Please introduce only letters and underscores on your username.")
-            } else if (!this.checkPassword(this.passwordInput)) {
+            } else if (!this.checkPassword(this.form.password)) {
                 this.setAndDisplayError("Please introduce more than 8 characters and not only numbers on your password.")
-            } else if (this.passwordInput !== this.confirmPasswordInput) {
+            } else if (this.form.password !== this.form.confirmPassword) {
                 this.setAndDisplayError("The password must match.")
             } else {
                 alert("Register form fullfilled!")
@@ -127,7 +127,7 @@ export default {
     align-items: center;
 }
 
-form {
+.form {
     width: 70%;
     border-style: solid;
     border-color: rgb(163, 163, 163);
