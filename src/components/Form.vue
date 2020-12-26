@@ -112,7 +112,7 @@ export default {
             }
         },
         ensuresValidPassword() {
-            if (!/(?=.{9,}).*/.test(this.form.password)) {
+            if (this.form.password.length <= 8) {
                 throw new Error("Please introduce more than 8 characters and not only numbers on your password.")
             }
 
