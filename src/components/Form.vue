@@ -94,49 +94,44 @@ export default {
         checkLettersAndUnderscores(text) {
             return /^[a-zA-Z_]+$/.test(text)
         },
-        validFirstName() {
-            return this.checkLettersAndSpaces(this.form.firstName)
+        ensuresValidFirstName() {
+            if (!this.checkLettersAndSpaces(this.form.firstName)) {
+                throw new Error("Please introduce only letters and spaces on your first name.")
+            }
         },
-        validLastName() {
-            return this.checkLettersAndSpaces(this.form.lastName)
+        ensuresValidLastName() {
+            if (!this.checkLettersAndSpaces(this.form.lastName)) {
+                throw new Error("Please introduce only letters and spaces on your last name.")
+            }
         },
-        validUsername() {
-            return this.checkLettersAndUnderscores(this.form.username)
+        ensuresValidUsername() {
+            if (!this.checkLettersAndUnderscores(this.form.username)) {
+                throw new Error("Please introduce only letters and underscores on your username.")
+            }
         },
-        validPassword() {
-            return /(?=.{9,}).*[^0-9].*/.test(this.form.password)
+        ensuresValidPassword() {
+            if (!/(?=.{9,}).*[^0-9].*/.test(this.form.password)) {
+                throw new Error("Please introduce more than 8 characters and not only numbers on your password.")
+            }
+
+            if (this.form.password !== this.form.confirmPassword) {
+                throw new Error("The password must match.")
+            }
         },
         sendRegisterForm() {
             // Hide the error message
             this.errorHidden = true
 
             // Check variables
-            if (!this.validFirstName()) {
-                this.setAndDisplayError("Please introduce only letters and spaces on your first name.")
-                return
+            try {
+                this.ensuresValidFirstName()
+                this.ensuresValidLastName()
+                this.ensuresValidUsername()
+                this.ensuresValidPassword()
+                alert("Register form fullfilled!")
+            } catch (error) {
+                this.setAndDisplayError(error.message)
             }
-
-            if (!this.validLastName()) {
-                this.setAndDisplayError("Please introduce only letters and spaces on your last name.")
-                return
-            }
-
-            if (!this.validUsername()) {
-                this.setAndDisplayError("Please introduce only letters and underscores on your username.")
-                return
-            }
-
-            if (!this.validPassword()) {
-                this.setAndDisplayError("Please introduce more than 8 characters and not only numbers on your password.")
-                return
-            }
-
-            if (this.form.password !== this.form.confirmPassword) {
-                this.setAndDisplayError("The password must match.")
-                return
-            }
-
-            alert("Register form fullfilled!")
         }
     },
 }
