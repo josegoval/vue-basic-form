@@ -40,7 +40,7 @@
                     for="password-input"
                 ) Password*:
                 input(
-                    type="text"
+                    type="password"
                     id="password-input"
                     name="password"
                     placeholder="Your password"
@@ -51,7 +51,7 @@
                     for="confirm-password-input"
                 ) Confirm password*:
                 input(
-                    type="text"
+                    type="password"
                     id="confirm-password-input"
                     name="confirm-password"
                     placeholder="Confirm your password"
