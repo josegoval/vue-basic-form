@@ -58,8 +58,10 @@
                     v-model="form.confirmPassword"
                 )
             //- Display errors
-            .error-card(:class="{hidden: errorHidden}")
-                span.error-message() {{ errorMessage }}
+            .error-card(
+                v-show="showError"
+            )
+                span.error-message {{ errorMessage }}
             .submit-button
                 button(
                     @click="sendRegisterForm"
@@ -80,13 +82,13 @@ export default {
                 confirmPassword: ""
             },
             errorMessage: "Please do",
-            errorHidden: true
+            showError: false
         }
     },
     methods: {
         setAndDisplayError(text) {
             this.errorMessage = text
-            this.errorHidden = false
+            this.showError = true
         },
         checkLettersAndSpaces(text) {
             return /^[a-zA-Z\s]+$/.test(text)
@@ -110,8 +112,12 @@ export default {
             }
         },
         ensuresValidPassword() {
-            if (!/(?=.{9,}).*[^0-9].*/.test(this.form.password)) {
+            if (!/(?=.{9,}).*/.test(this.form.password)) {
                 throw new Error("Please introduce more than 8 characters and not only numbers on your password.")
+            }
+
+            if (!isNaN(Number(this.form.password))) {
+                throw new Error("Password can't have only numbers.")
             }
 
             if (this.form.password !== this.form.confirmPassword) {
@@ -120,7 +126,7 @@ export default {
         },
         sendRegisterForm() {
             // Hide the error message
-            this.errorHidden = true
+            this.showError = false
 
             // Check variables
             try {
