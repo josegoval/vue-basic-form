@@ -95,12 +95,12 @@ export default {
             return /^[a-zA-Z_]+$/.test(text)
         },
         ensuresValidFirstName() {
-            if (!this.checkLettersAndSpaces(this.form.firstName)) {
+            if (this.form.firstName !== '' && !this.checkLettersAndSpaces(this.form.firstName)) {
                 throw new Error("Please introduce only letters and spaces on your first name.")
             }
         },
         ensuresValidLastName() {
-            if (!this.checkLettersAndSpaces(this.form.lastName)) {
+            if (this.form.lastName !== '' && !this.checkLettersAndSpaces(this.form.lastName)) {
                 throw new Error("Please introduce only letters and spaces on your last name.")
             }
         },
