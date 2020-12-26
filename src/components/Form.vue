@@ -80,7 +80,7 @@ export default {
                 confirmPassword: ""
             },
             errorMessage: "Please do",
-            errorHidden: true,
+            errorHidden: true
         }
     },
     methods: {
@@ -94,27 +94,37 @@ export default {
         checkLettersAndUnderscores(text) {
             return /^[a-zA-Z_]+$/.test(text)
         },
-        checkPassword(password) {
-            return /(?=.{9,}).*[^0-9].*/.test(password)
+        validFirstName() {
+            return this.checkLettersAndSpaces(this.form.firstName)
+        },
+        validLastName() {
+            return this.checkLettersAndSpaces(this.form.lastName)
+        },
+        validUsername() {
+            return this.checkLettersAndUnderscores(this.form.username)
+        },
+        validPassword() {
+            return /(?=.{9,}).*[^0-9].*/.test(this.form.password)
         },
         sendRegisterForm() {
             // Hide the error message
             this.errorHidden = true
+
             // Check variables
-            if (!this.checkLettersAndSpaces(this.form.firstName)) {
-                this.setAndDisplayError("Please inroduce only letters and spaces on your first name.")
-            } else if (!this.checkLettersAndSpaces(this.form.lastName)) {
+            if (!this.validFirstName()) {
+                this.setAndDisplayError("Please introduce only letters and spaces on your first name.")
+            } else if (!this.validLastName()) {
                 this.setAndDisplayError("Please introduce only letters and spaces on your last name.")
-            } else if (!this.checkLettersAndUnderscores(this.form.username)) {
+            } else if (!this.validUsername()) {
                 this.setAndDisplayError("Please introduce only letters and underscores on your username.")
-            } else if (!this.checkPassword(this.form.password)) {
+            } else if (!this.validPassword()) {
                 this.setAndDisplayError("Please introduce more than 8 characters and not only numbers on your password.")
             } else if (this.form.password !== this.form.confirmPassword) {
                 this.setAndDisplayError("The password must match.")
             } else {
                 alert("Register form fullfilled!")
             }
-        },
+        }
     },
 }
 </script>
